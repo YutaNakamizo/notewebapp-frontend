@@ -1,26 +1,30 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Switch, Route, withRouter } from 'react-router-dom';
+import { ThemeProvider } from '@material-ui/styles';
+import { createMuiTheme } from '@material-ui/core/styles';
+import * as Colors from '@material-ui/core/colors';
+import {
+  Backdrop,
+  CircularProgress,
+} from '@material-ui/core';
 
-function App() {
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: Colors.amber[500]
+    }
+  }
+});
+
+export const App = withRouter(() => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={theme}>
+      <div className="App">
+        <Backdrop open={true} style={{ zIndex: 2000 }}>
+          <CircularProgress style={{ color: '#fff' }} />
+        </Backdrop>
+      </div>
+    </ThemeProvider>
   );
-}
+});
 
-export default App;
