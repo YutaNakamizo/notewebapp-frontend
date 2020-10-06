@@ -6,6 +6,7 @@ import {
   Box,
   Input,
 } from '@material-ui/core';
+import { Note as NoteClass } from '~/api-library';
 
 export const NewEditor = ({
   onClose,
@@ -21,11 +22,16 @@ export const NewEditor = ({
   }, []);
 
   const save = () => {
-    
+    NoteClass.create({ title, body }).then(note => {
+      console.log(note);
+      onClose(note);
+    }).catch(err => {
+      console.error(err);
+    });
   };
 
   const cancel = () => {
-
+    onClose();
   };
 
   const close = () => {

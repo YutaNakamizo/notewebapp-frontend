@@ -21,11 +21,12 @@ export const Note = class {
     title,
     body,
   }) {
-    const resp = await axios.post('/api/notes', { title, body }).catch(err => {
+    const resp = await axios.put('/api/notes', { title, body }).catch(err => {
       console.error(err);
       throw err;
     });
-    return new Note(resp);
+    console.log(resp.data);
+    return new Note(resp.data);
   }
 
   async save({
