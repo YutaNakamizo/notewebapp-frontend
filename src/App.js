@@ -7,6 +7,7 @@ import {
   Backdrop,
   CircularProgress,
 } from '@material-ui/core';
+import { App as AppMain } from '~/routes/App';
 
 const theme = createMuiTheme({
   palette: {
@@ -20,9 +21,10 @@ export const App = withRouter(() => {
   return (
     <ThemeProvider theme={theme}>
       <div className="App">
-        <Backdrop open={true} style={{ zIndex: 2000 }}>
+        <AppMain />
+        {/*<Backdrop open={true} style={{ zIndex: 2000 }}>
           <CircularProgress style={{ color: '#fff' }} />
-        </Backdrop>
+        </Backdrop>*/}
       </div>
     </ThemeProvider>
   );
