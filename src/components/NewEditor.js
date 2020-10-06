@@ -45,12 +45,7 @@ export const NewEditor = ({
       fullWidth
     >
       <DialogTitle>
-        <Typography
-          variant="h6"
-          component="h1"
-        >
-          新規メモ
-        </Typography>
+        新規メモ
       </DialogTitle>
       <DialogContent>
         <Input
