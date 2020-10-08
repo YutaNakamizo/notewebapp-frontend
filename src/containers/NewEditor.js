@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import api from '~/api-library';
+import { connect } from 'react-redux';
+import * as noteActions from '~/modules/note';
 import {
   Dialog, DialogTitle, DialogContent, DialogActions,
   Typography,
@@ -6,9 +9,13 @@ import {
   Box,
   Input,
 } from '@material-ui/core';
-import { Note as NoteClass } from '~/api-library';
 
-export const NewEditor = ({
+const mapDispatchToProps = dispatch => ({
+  handleCreated: note => dispatch(noteActions.onCreate(note)),
+});
+
+export const NewEditor = connect(null, mapDispatchToProps)(({
+  handleCreated,
   onClose,
   ...props
 }) => {
@@ -22,8 +29,9 @@ export const NewEditor = ({
   }, []);
 
   const save = () => {
-    NoteClass.create({ title, body }).then(note => {
+    api.note.create({ title, body }).then(note => {
       console.log(note);
+      handleCreated(note);
       onClose(note);
     }).catch(err => {
       console.error(err);
@@ -95,5 +103,5 @@ export const NewEditor = ({
       </DialogActions>
     </Dialog>
   );
-};
+});
 

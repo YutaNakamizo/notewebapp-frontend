@@ -17,6 +17,16 @@ export const Note = class {
     this.archved = archved;
   }
 
+  static async load() {
+    const resp = await axios.get('/api/notes').catch(err => {
+      console.error(err);
+      throw err;
+    });
+    console.log(resp.data);
+    const notes = resp.data.map(note_source => new Note(note_source));
+    return notes;
+  }
+
   static async create({
     title,
     body,
@@ -59,7 +69,24 @@ export const Note = class {
     this.archved = archved;
     return this;
   }
+
+  toData() {
+    const data = {};
+    const keys = [
+      'id',
+      'title',
+      'body',
+      'dateCreated',
+      'dateLastModified',
+      'archived',
+    ];
+    for(const key of keys) data[key] = this[key];
+    return data;
+  }
 };
 
-export default Note;
+const app = {
+  note: Note,
+};
+export default app;
 
