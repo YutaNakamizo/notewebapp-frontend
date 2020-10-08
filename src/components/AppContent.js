@@ -1,4 +1,6 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import * as noteActions from '~/modules/note';
 import { makeStyles } from '@material-ui/core/styles';
 import {
   Container,
@@ -11,9 +13,19 @@ const useStyle = makeStyles(theme => ({
     marginTop: theme.spacing(2),
     padding: theme.spacing(2),
   },
+  cardBody: {
+    'whiteSpace': 'pre-wrap',
+  },
 }));
 
-export const AppContent = ({
+const mapStateToProps = state => {
+  const { note } = state;
+  return {
+    ...note,
+  };
+};
+
+export const AppContent = connect(mapStateToProps)(({
   notes,
   ...props
 }) => {
@@ -25,10 +37,17 @@ export const AppContent = ({
           const { id, title, body, dateCreated, dateLastModified, archived } = note;
           return (
             <Card key={id} variant="outlined" className={classes.card}>
-              <Typography variant="subtitle1" component="h3" gutterBottom>
+              <Typography
+                variant="subtitle1"
+                component="h3"
+                gutterBottom
+              >
                 {title}
               </Typography>
-              <Typography variant="body2">
+              <Typography
+                variant="body2"
+                className={classes.cardBody}
+              >
                 {body}
               </Typography>
             </Card>
@@ -37,5 +56,5 @@ export const AppContent = ({
       </Container>
     </>
   );
-};
+});
 
