@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import api, { Note } from '~/api-library';
+import api from '~/api-library';
 import { connect } from 'react-redux';
 import * as noteActions from '~/modules/note';
 import { makeStyles } from '@material-ui/core/styles';
@@ -19,18 +19,11 @@ const useStyle = makeStyles(theme => ({
   }
 }));
 
-const mapStateToProps = state => {
-  const { note } = state;
-  return {
-    ...note,
-  };
-};
-
 const mapDispatchToProps = dispatch => ({
   handleLoaded: notes => dispatch(noteActions.onLoad(notes)),
 });
 
-export const App = connect(mapStateToProps, mapDispatchToProps)(({
+export const App = connect(null, mapDispatchToProps)(({
   notes,
   handleLoaded,
   ...props
@@ -45,21 +38,11 @@ export const App = connect(mapStateToProps, mapDispatchToProps)(({
 
   const loadNotes = () => {
     setLoadingNotes(true);
-    setTimeout(() => {
-      console.log('loadNotes');
-      handleLoaded([
-        ...(notes.map(note => new Note(note))),
-        new Note({
-          id: String(Math.floor(Math.random() * 100000)),
-          title: `Test Note #${notes.length + 1}`,
-          body: (new Array(10)).fill(`This is a test note #${notes.length + 1}.`).join(' '),
-          dateCreated: new Date().getTime(),
-          dateLastModified: new Date().getTime(),
-          archived: false
-        })
-      ]);
+    api.note.load().then(notes => {
+      console.log(JSON.stringify(notes, null, 2));
+      handleLoaded(notes);
       setLoadingNotes(false);
-    }, 2000);
+    });
   };
 
   const openNewEditor = () => {
