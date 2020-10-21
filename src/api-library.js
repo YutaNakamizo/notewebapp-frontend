@@ -16,6 +16,10 @@ export const Note = class {
     this.dateLastModified = dateLastModified;
     this.archved = archved;
   }
+  
+  static fromData(data) {
+    return new Note(data);
+  }
 
   static async load() {
     const resp = await axios.get('/api/notes').catch(err => {
@@ -43,11 +47,11 @@ export const Note = class {
     title: newTitle,
     body: newBody,
   }) {
-    const resp = await axios.put(`/api/notes/${this.id}`, { title: newTitle, body: newBody }).catch(err => {
+    const resp = await axios.post(`/api/notes/${this.id}`, { title: newTitle, body: newBody }).catch(err => {
       console.error(err);
       throw err;
     });
-    const { title, body, dateCreated, dateLastModified, archved } = resp;
+    const { title, body, dateCreated, dateLastModified, archved } = resp.data;
     this.title = title;
     this.body = body;
     this.dateCreated = dateCreated;
@@ -61,7 +65,7 @@ export const Note = class {
       console.error(err);
       throw err;
     });
-    const { title, body, dateCreated, dateLastModified, archved } = resp;
+    const { title, body, dateCreated, dateLastModified, archved } = resp.data;
     this.title = title;
     this.body = body;
     this.dateCreated = dateCreated;

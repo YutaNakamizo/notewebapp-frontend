@@ -31,7 +31,7 @@ const reducer = (state = initialState, action) => {
     case ON_EDIT: {
       const { note } = value;
       const notes = [ ...state.notes ];
-      const existing_index = notes.indexOf(_note => _note.id === note.id);
+      const existing_index = notes.findIndex(_note => _note.id === note.id);
       if(existing_index > -1) notes.splice(existing_index, 1, note.toData());
       return {
         ...state,
