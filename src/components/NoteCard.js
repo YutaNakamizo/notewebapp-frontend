@@ -20,9 +20,14 @@ export const NoteCard = ({
   note,
   ...props
 }) => {
-  const { title, body, dateLastModified } = note;
+  const { title, body, dateCreated, dateLastModified } = note;
 
   const [ editorIsOpen, setEditorIsOpen ] = useState(false);
+
+  const formatDateLastModified = time => {
+    const date = new Date(time);
+    return `${date.getFullYear()}/${('0' + (date.getMonth() + 1)).slice(-2)}/${('0' + date.getDate()).slice(-2)} ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}`;
+  };
 
   const openEditor = () => {
     setEditorIsOpen(true);
@@ -50,6 +55,14 @@ export const NoteCard = ({
           className={classes.cardBody}
         >
           {body}
+        </Typography>
+        <Typography
+          display="block"
+          align="right"
+          color="textSecondary"
+          variant="caption"
+        >
+          {dateCreated === dateLastModified ? '作成日時' : '最終更新'}: {formatDateLastModified(dateLastModified)}
         </Typography>
       </Card>
       <Editor

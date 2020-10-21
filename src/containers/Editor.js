@@ -24,10 +24,18 @@ export const Editor = connect(null, mapDispatchToProps)(({
   const {
     title: initialTitle,
     body: initialBody,
+    dateCreated,
+    dateLastModified,
   } = note;
+
   const [ title, setTitle ] = useState(initialTitle);
   const [ body, setBody ] = useState(initialBody);
   const [ saving, setSaving ] = useState(false);
+
+  const formatDateLastModified = time => {
+    const date = new Date(time);
+    return `${date.getFullYear()}/${('0' + (date.getMonth() + 1)).slice(-2)}/${('0' + date.getDate()).slice(-2)} ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}`;
+  };
 
   const save = () => {
     api.note.fromData(note).save({ title, body }).then(note => {
@@ -77,6 +85,14 @@ export const Editor = connect(null, mapDispatchToProps)(({
         />
       </DialogContent>
       <DialogActions>
+        <Typography
+          display="block"
+          align="right"
+          color="textSecondary"
+          variant="caption"
+        >
+          {dateCreated === dateLastModified ? '作成日時' : '最終更新'}: {formatDateLastModified(dateLastModified)}
+        </Typography>
         <Button
           onClick={cancel}
           disabled={saving}
