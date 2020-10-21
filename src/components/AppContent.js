@@ -21,11 +21,14 @@ export const AppContent = connect(mapStateToProps)(({
     <>
       <Container maxWidth="sm">
         {Array.isArray(notes) && notes.map(note => {
+          const { archived } = note;
           return (
-            <NoteCard
-              key={note.id}
-              note={note}
-            />
+            !archived && (
+              <NoteCard
+                key={note.id}
+                note={note}
+              />
+            )
           );
         })}
       </Container>

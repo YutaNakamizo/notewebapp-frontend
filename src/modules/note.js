@@ -42,7 +42,7 @@ const reducer = (state = initialState, action) => {
       const { note } = value;
       const notes = [ ...state.notes ];
       const existing_note = notes.find(_note => _note.id === note.id);
-      if(existing_note) existing_note.archive = true;
+      if(existing_note) existing_note.archived = true;
       return {
         ...state,
         notes,

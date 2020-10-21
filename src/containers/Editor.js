@@ -5,19 +5,24 @@ import * as noteActions from '~/modules/note';
 import {
   Dialog, DialogTitle, DialogContent, DialogActions,
   Typography,
+  IconButton,
   Button,
   Box,
   Input,
+  Tooltip,
 } from '@material-ui/core';
+import ArchiveOutlinedIcon from '@material-ui/icons/ArchiveOutlined';
 
 const mapDispatchToProps = dispatch => ({
   handleEdited: note => dispatch(noteActions.onEdit(note)),
+  handleArchived: note => dispatch(noteActions.onArchive(note)),
 });
 
 export const Editor = connect(null, mapDispatchToProps)(({
   note,
   open,
   handleEdited,
+  handleArchived,
   onClose,
   ...props
 }) => {
@@ -41,6 +46,16 @@ export const Editor = connect(null, mapDispatchToProps)(({
     api.note.fromData(note).save({ title, body }).then(note => {
       console.log(note);
       handleEdited(note);
+      onClose(note);
+    }).catch(err => {
+      console.error(err);
+    });
+  };
+
+  const archive = () => {
+    api.note.fromData(note).archive().then(note => {
+      console.log(note);
+      handleArchived(note);
       onClose(note);
     }).catch(err => {
       console.error(err);
@@ -85,6 +100,20 @@ export const Editor = connect(null, mapDispatchToProps)(({
         />
       </DialogContent>
       <DialogActions>
+        <Box
+          flexGrow={1}
+        >
+          <Tooltip
+            title="アーカイブ"
+          >
+            <IconButton
+              onClick={archive}
+            >
+              <ArchiveOutlinedIcon />
+            </IconButton>
+          </Tooltip>
+        </Box>
+
         <Typography
           display="block"
           align="right"

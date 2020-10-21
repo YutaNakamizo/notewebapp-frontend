@@ -7,14 +7,14 @@ export const Note = class {
     body,
     dateCreated,
     dateLastModified,
-    archved,
+    archived,
   }) {
     this.id = id;
     this.title = title;
     this.body = body;
     this.dateCreated = dateCreated;
     this.dateLastModified = dateLastModified;
-    this.archved = archved;
+    this.archived = archived;
   }
   
   static fromData(data) {
@@ -51,12 +51,12 @@ export const Note = class {
       console.error(err);
       throw err;
     });
-    const { title, body, dateCreated, dateLastModified, archved } = resp.data;
+    const { title, body, dateCreated, dateLastModified, archived } = resp.data;
     this.title = title;
     this.body = body;
     this.dateCreated = dateCreated;
     this.dateLastModified = dateLastModified;
-    this.archved = archved;
+    this.archived = archived;
     return this;
   }
 
@@ -65,12 +65,12 @@ export const Note = class {
       console.error(err);
       throw err;
     });
-    const { title, body, dateCreated, dateLastModified, archved } = resp.data;
+    const { title, body, dateCreated, dateLastModified, archived } = resp.data;
     this.title = title;
     this.body = body;
     this.dateCreated = dateCreated;
     this.dateLastModified = dateLastModified;
-    this.archved = archved;
+    this.archived = archived;
     return this;
   }
 
